@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Modal, Image, TextInput } from 'react-native';  // 1 import Modal e um botão TouchableOpacity - 2 import TextInput
 import TelaInicial from './component/TelaInicial'; // importando tela inicial que sera colcado como conteudo do modal inicial
+import Consulta from './component/Consulta';
 import BombaImage from './assets/logo.png';
 
 
 // 1 - tela inicial 
 // 2 - tela de input de dados
-
+// 3 - tela consulta
 
 class App extends Component {
   constructor(props){
@@ -18,6 +19,8 @@ class App extends Component {
       input2: '', // 2 state input2 que recebe dado input2
     }
     this.telaInicial = this.telaInicial.bind(this); // 1 - bind para linkar  dados do state com a funcao telaInicial
+    this.telaConsultaOff = this.telaConsultaOff.bind(this); // 3 - bind para linkar  dados do state com a funcao telaConsulta
+    this.telaConsultaOnn = this.telaConsultaOnn.bind(this); // 3 - bind para linkar  dados do state com a funcao telaConsulta
   };
 
   telaInicial(){  // 1 - altera state modalvisible de true para false ao clicar no botão (ver linha 17 TelaInicial.js)
@@ -26,6 +29,18 @@ class App extends Component {
     };
   };
 
+  telaConsultaOnn(){  // 1 - altera state modalvisibleConsulta de true para false ao clicar no botão (ver linha 18 Consulta.js)
+    if(this.state.modalVisibleConsulta == false){   
+      this.setState({modalVisibleConsulta: true})  
+    };
+  };
+
+
+  telaConsultaOff(){  // 1 - altera state modalvisibleConsulta de true para false ao clicar no botão (ver linha 18 Consulta.js)
+    if(this.state.modalVisibleConsulta == true){   
+      this.setState({modalVisibleConsulta: false})  
+    };
+  };
 
 
   render(){
@@ -68,7 +83,7 @@ class App extends Component {
           onChangeText={(texto) => this.setState({input2: texto})} 
         />
 
-        <TouchableOpacity style={styles.btnConsulta} onPress={this.btnConsulta}>
+        <TouchableOpacity style={styles.btnConsulta} onPress={this.telaConsultaOnn}>
           <Text style={styles.btnText}>Consultar</Text>
         </TouchableOpacity>
 
@@ -83,6 +98,7 @@ class App extends Component {
                                           // 3 - se inicia como true(ligado) pois sera a tela inicial 
         >
         
+          <Consulta  telaConsultaOff={this.telaConsultaOff} />
         </Modal>
 
       
