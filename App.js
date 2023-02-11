@@ -1,14 +1,21 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal } from 'react-native';  // 1 import Modal e um botão TouchableOpacity
+import { StyleSheet, Text, View, TouchableOpacity, Modal, Image, TextInput } from 'react-native';  // 1 import Modal e um botão TouchableOpacity - 2 import TextInput
 import TelaInicial from './component/TelaInicial'; // importando tela inicial que sera colcado como conteudo do modal inicial
+import BombaImage from './assets/logo.png';
 
 
 // 1 - tela inicial 
+// 2 - tela de input de dados
+
+
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      modalVisible: true
+      modalVisible: true, // 1 
+      modalVisibleConsulta: false, // 3 ativacao modal consulta
+      input: '', // 2  state input  que recebe dado input
+      input2: '', // 2 state input2 que recebe dado input2
     }
     this.telaInicial = this.telaInicial.bind(this); // 1 - bind para linkar  dados do state com a funcao telaInicial
   };
@@ -34,6 +41,50 @@ class App extends Component {
         <TelaInicial  offTelaInicial={this.telaInicial} /> 
       </Modal>
 
+      {/* 2 -  */}
+      <View style={styles.containerInput}>  
+        <Image
+          source={BombaImage}
+          style={styles.imageBomba}
+        />
+        <Text style={styles.textBomba}>Qual a melhor opção?</Text>
+        <Text style={styles.textInput}>Alcool (preço por litro)</Text>
+        <TextInput
+          style={styles.input}
+          keyboardType='numeric' // 2 - na hora de digitar aparece somente o teclado numerico   
+          placeholder="Alcool?" 
+          underlineColorAndroid="transparent"  // 2 retira o underline padrao do texto digitado
+          onChangeText={(texto) => this.setState({input: texto})} // 2 onChangeText pega o texto digitado no input 
+                                                                // 2 com essa funcao ao digitar o state que é "Desenvovledor" 
+                                                                // 2 que muda para setState que é o texto recebido pelo parametro texto 
+        />
+
+        <Text style={styles.textInput}>Gasolina (preço por litro)</Text>
+        <TextInput
+          style={styles.input}
+          keyboardType='numeric' 
+          placeholder="Gasolina?" 
+          underlineColorAndroid="transparent"  
+          onChangeText={(texto) => this.setState({input2: texto})} 
+        />
+
+        <TouchableOpacity style={styles.btnConsulta} onPress={this.btnConsulta}>
+          <Text style={styles.btnText}>Consultar</Text>
+        </TouchableOpacity>
+
+        
+
+      </View>
+
+        <Modal  // 3 - Modal Tela Inicial
+          transparent={true} // 3 - deixa o fundo fora do modal invisivel
+          animationType='slide' // 3 - animação do modal em slide 
+          visible={this.state.modalVisibleConsulta} // 3 - mostra quando sera MOSTRADA o modal, neste caso quando o state modalVisibleConculta estiver true 
+                                          // 3 - se inicia como true(ligado) pois sera a tela inicial 
+        >
+        
+        </Modal>
+
       
     </View>
   );
@@ -44,6 +95,55 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  containerInput: {
+    backgroundColor: '#8A2BE2',
+    flex: 1,
+    alignItems: 'center',
+    paddingTop: '30%',
+  },
+  imageBomba: {
+    width: 150,
+    height: 150,
+  },
+  textBomba: {
+    color: '#FFF',
+    fontSize: 20,
+    fontWeight: 'bold',
+    paddingVertical: 15,
+  },
+  textInput: {
+    color: '#FFF',
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginVertical: 5,
+  },
+  input: {
+    borderWidth: 2,
+    borderColor: '#8A2BE2',
+    backgroundColor: '#FFF',
+    paddingVertical: 2,
+    textAlign: 'center',
+    borderRadius: 10,
+    marginVertical: 5,
+    width: 100,
+  },
+  btnConsulta: {
+    width: 100,
+    height: 50,
+    marginTop: '10%',  
+    
+  },
+  btnText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    backgroundColor: '#FFF',
+    textAlign: 'center',
+    color: '#8a2be2',
+    padding: 10,
+    borderRadius: 20,
+    fontFamily: 'Roboto',
+  }
+  
   
 });
 

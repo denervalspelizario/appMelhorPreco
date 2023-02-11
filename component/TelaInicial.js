@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 25,
     fontFamily: 'Roboto',
+    fontWeight: 'bold',
 
   },
   imageCombustivel: {
