@@ -26,7 +26,7 @@ class Consulta extends Component {
 }
 
 const styles = StyleSheet.create({
-  containerTela: {
+  containerTelaInicial: {
     flex: 1, 
     backgroundColor: '#8A2BE2',
     justifyContent: 'center', 

@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal, Image, TextInput } from 'react-native';  // 1 import Modal e um botão TouchableOpacity - 2 import TextInput
+import { StyleSheet, Text, View, TouchableOpacity, 
+          Modal, Image, TextInput, Alert
+       } 
+       from 'react-native';  // 1 import Modal e um botão TouchableOpacity - 2 import TextInput - 4 Alert
 import TelaInicial from './component/TelaInicial'; // importando tela inicial que sera colcado como conteudo do modal inicial
 import Consulta from './component/Consulta';
 import BombaImage from './assets/logo.png';
 
 
 // 1 - tela inicial 
-// 2 - tela de input de dados
+// 2 - tela de input de dados,  4 - validacao de input
 // 3 - tela consulta
 
 class App extends Component {
@@ -21,7 +24,12 @@ class App extends Component {
     this.telaInicial = this.telaInicial.bind(this); // 1 - bind para linkar  dados do state com a funcao telaInicial
     this.telaConsultaOff = this.telaConsultaOff.bind(this); // 3 - bind para linkar  dados do state com a funcao telaConsulta
     this.telaConsultaOnn = this.telaConsultaOnn.bind(this); // 3 - bind para linkar  dados do state com a funcao telaConsulta
+  
   };
+
+
+  
+  
 
   telaInicial(){  // 1 - altera state modalvisible de true para false ao clicar no botão (ver linha 17 TelaInicial.js)
     if(this.state.modalVisible == true){   
@@ -30,8 +38,15 @@ class App extends Component {
   };
 
   telaConsultaOnn(){  // 1 - altera state modalvisibleConsulta de true para false ao clicar no botão (ver linha 18 Consulta.js)
-    if(this.state.modalVisibleConsulta == false){   
-      this.setState({modalVisibleConsulta: true})  
+    let gasolina = this.state.input  // 4 - validacao de input
+    let alcool = this.state.input2  // 4 - validacao de input 2
+
+    if(this.state.modalVisibleConsulta == false && gasolina != '' && alcool != ''){   // 4 - validacao de dados
+      this.setState({modalVisibleConsulta: true})   // 3 alteracao de state para true e mostral o modal consulta
+    } else if(gasolina == ''){ // 4 validacao de dado
+      Alert.alert('Atenção', 'Digite valor da alcool')
+    }else if (alcool == ''){ // 4 validacao de dado
+      Alert.alert('Atenção', 'Digite valor do gasolina')
     };
   };
 
@@ -86,6 +101,7 @@ class App extends Component {
         <TouchableOpacity style={styles.btnConsulta} onPress={this.telaConsultaOnn}>
           <Text style={styles.btnText}>Consultar</Text>
         </TouchableOpacity>
+        <Text>{this.state.input}</Text>
 
         
 
