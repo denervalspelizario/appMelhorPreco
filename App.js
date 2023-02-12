@@ -20,15 +20,17 @@ class App extends Component {
       modalVisibleConsulta: false, // 3 ativacao modal consulta
       input: '', // 2  state input  que recebe dado input
       input2: '', // 2 state input2 que recebe dado input2
+      valorCompensa: 'valorCompensa',
+      valorAlcool: 'valorAlcool',
+      valorGasolina: 'valorGasolina',
     }
     this.telaInicial = this.telaInicial.bind(this); // 1 - bind para linkar  dados do state com a funcao telaInicial
     this.telaConsultaOff = this.telaConsultaOff.bind(this); // 3 - bind para linkar  dados do state com a funcao telaConsulta
     this.telaConsultaOnn = this.telaConsultaOnn.bind(this); // 3 - bind para linkar  dados do state com a funcao telaConsulta
-  
   };
 
 
-  
+
   
 
   telaInicial(){  // 1 - altera state modalvisible de true para false ao clicar no botão (ver linha 17 TelaInicial.js)
@@ -38,11 +40,26 @@ class App extends Component {
   };
 
   telaConsultaOnn(){  // 1 - altera state modalvisibleConsulta de true para false ao clicar no botão (ver linha 18 Consulta.js)
-    let gasolina = this.state.input  // 4 - validacao de input
-    let alcool = this.state.input2  // 4 - validacao de input 2
+    let gasolina = this.state.input2  // 4 - validacao de input2
+    let alcool = this.state.input  // 4 - validacao de input 
+
+    
+    let dadoCompensa =  alcool / gasolina
+
+    
+   
 
     if(this.state.modalVisibleConsulta == false && gasolina != '' && alcool != ''){   // 4 - validacao de dados
       this.setState({modalVisibleConsulta: true})   // 3 alteracao de state para true e mostral o modal consulta
+      this.setState({valorAlcool: alcool});
+      this.setState({valorGasolina: gasolina});
+
+      if (dadoCompensa >= 0.7 ) {
+        this.setState({valorCompensa: 'gasolina'})
+      } else {
+        this.setState({valorCompensa: 'alcool'})
+      }
+
     } else if(gasolina == ''){ // 4 validacao de dado
       Alert.alert('Atenção', 'Digite valor da alcool')
     }else if (alcool == ''){ // 4 validacao de dado
@@ -54,6 +71,7 @@ class App extends Component {
   telaConsultaOff(){  // 1 - altera state modalvisibleConsulta de true para false ao clicar no botão (ver linha 18 Consulta.js)
     if(this.state.modalVisibleConsulta == true){   
       this.setState({modalVisibleConsulta: false})  
+      this.setState({modalVisible: true })
     };
   };
 
@@ -101,10 +119,7 @@ class App extends Component {
         <TouchableOpacity style={styles.btnConsulta} onPress={this.telaConsultaOnn}>
           <Text style={styles.btnText}>Consultar</Text>
         </TouchableOpacity>
-        <Text>{this.state.input}</Text>
-
-        
-
+      
       </View>
 
         <Modal  // 3 - Modal Tela Inicial
@@ -114,10 +129,16 @@ class App extends Component {
                                           // 3 - se inicia como true(ligado) pois sera a tela inicial 
         >
         
-          <Consulta  telaConsultaOff={this.telaConsultaOff} />
+          <Consulta  
+            telaConsultaOff={this.telaConsultaOff} 
+            valorCompensa={this.state.valorCompensa}
+            valorAlcool={this.state.valorAlcool}
+            valorGasolina={this.state.valorGasolina}
+
+            
+            />
         </Modal>
 
-      
     </View>
   );
   }
