@@ -11,6 +11,8 @@ import BombaImage from './assets/logo.png';
 // 1 - tela inicial 
 // 2 - tela de input de dados,  4 - validacao de input
 // 3 - tela consulta
+// 4 - validacao de dados e logica
+
 
 class App extends Component {
   constructor(props){
@@ -18,11 +20,12 @@ class App extends Component {
     this.state = {
       modalVisible: true, // 1 
       modalVisibleConsulta: false, // 3 ativacao modal consulta
-      input: '', // 2  state input  que recebe dado input
-      input2: '', // 2 state input2 que recebe dado input2
+      input: 0, // 2  state input  que recebe dado input
+      input2: 0, // 2 state input2 que recebe dado input2
       valorCompensa: 'valorCompensa',
       valorAlcool: 'valorAlcool',
       valorGasolina: 'valorGasolina',
+      clearText: false, 
     }
     this.telaInicial = this.telaInicial.bind(this); // 1 - bind para linkar  dados do state com a funcao telaInicial
     this.telaConsultaOff = this.telaConsultaOff.bind(this); // 3 - bind para linkar  dados do state com a funcao telaConsulta
@@ -54,24 +57,26 @@ class App extends Component {
       this.setState({valorAlcool: alcool});
       this.setState({valorGasolina: gasolina});
 
-      if (dadoCompensa >= 0.7 ) {
+      if (dadoCompensa >= 0.7 ) {  // 
         this.setState({valorCompensa: 'gasolina'})
       } else {
         this.setState({valorCompensa: 'alcool'})
       }
 
     } else if(gasolina == ''){ // 4 validacao de dado
-      Alert.alert('Atenção', 'Digite valor da alcool')
+      Alert.alert('Atenção', 'Digite valor da gasolina')
     }else if (alcool == ''){ // 4 validacao de dado
-      Alert.alert('Atenção', 'Digite valor do gasolina')
+      Alert.alert('Atenção', 'Digite valor do alcool')
     };
   };
 
 
   telaConsultaOff(){  // 1 - altera state modalvisibleConsulta de true para false ao clicar no botão (ver linha 18 Consulta.js)
     if(this.state.modalVisibleConsulta == true){   
-      this.setState({modalVisibleConsulta: false})  
-      this.setState({modalVisible: true })
+      this.setState({modalVisibleConsulta: false});  // 4 altera state e desliga modal Consulta
+      this.setState({modalVisible: true }); // 4 altera state para aparecer modal Telainicial
+      this.setState({input: 0});
+      this.setState({input2: 0});
     };
   };
 
@@ -99,6 +104,8 @@ class App extends Component {
         <Text style={styles.textInput}>Alcool (preço por litro)</Text>
         <TextInput
           style={styles.input}
+          maxLength={6}
+          inputMode='numeric' // 2 - aceita dados tipo numerico
           keyboardType='numeric' // 2 - na hora de digitar aparece somente o teclado numerico   
           placeholder="Alcool?" 
           underlineColorAndroid="transparent"  // 2 retira o underline padrao do texto digitado
@@ -110,6 +117,8 @@ class App extends Component {
         <Text style={styles.textInput}>Gasolina (preço por litro)</Text>
         <TextInput
           style={styles.input}
+          maxLength={6}
+          inputMode='numeric' // 2 - aceita dados tipo numerico
           keyboardType='numeric' 
           placeholder="Gasolina?" 
           underlineColorAndroid="transparent"  
